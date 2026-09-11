@@ -13,6 +13,7 @@ if (!process.env.DATABASE_URL) {
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  family: 4,
   ssl: process.env.DATABASE_SSL === 'true' || process.env.NODE_ENV === 'production'
     ? { rejectUnauthorized: false }
     : false
