@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCB Service Desk</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body data-page="dashboard">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand-box">
+          <div class="brand-mark">SCB</div>
+          <div>
+            <p class="brand-tag">Suhum Community Bank</p>
+            <h1>SCB Service Desk</h1>
+          </div>
+        </div>
+
+        <nav class="nav">
+          <button class="nav-item active" data-target="dashboard">Dashboard</button>
+          <button class="nav-item" data-target="tickets">Tickets</button>
+          <button id="chatsNav" class="nav-item staff-only" data-target="chats">
+            <span>Chats</span>
+            <span id="chatsUnreadBadge" class="unread-badge" hidden>0</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-card">
+          <p class="muted">Service status</p>
+          <h3>System health</h3>
+          <div class="status-bar">
+            <span class="status-fill"></span>
+          </div>
+          <p class="status-label">Live incident data</p>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Operations Center</p>
+            <h2>SCB Service Desk</h2>
+          </div>
+          <div class="topbar-actions">
+            <span id="roleBadge" class="badge neutral">Employee</span>
+            <button class="ghost-btn">Export</button>
+            <button id="newTicketButton" class="primary-btn" type="button">New Ticket</button>
+            <button id="logoutBtn" class="ghost-btn" type="button">Log out</button>
+          </div>
+        </header>
+
+        <section class="page-section active" data-section="dashboard">
+          <section class="stats-grid" id="statsGrid"></section>
+
+          <section class="content-grid">
+            <div id="adminOfficerPanel" class="panel admin-panel" style="display: none;">
+              <div class="panel-header">
+                <h3>Manage accounts</h3>
+                <span class="badge neutral">Admin only</span>
+              </div>
+
+              <button id="addUserButton" type="button" class="primary-btn">Add user</button>
+
+              <form id="officerForm" style="display: none;">
+                <div class="field-row two-col">
+                  <label>
+                    <span>Account type</span>
+                    <select id="userRole">
+                      <option value="Employee">Employee</option>
+                      <option value="IT Officer">IT Officer</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-row two-col">
+                  <label>
+                    <span>Full name</span>
+                    <input type="text" id="officerName" placeholder="John Doe" required />
+                  </label>
+                  <label>
+                    <span>Email</span>
+                    <input type="email" id="officerEmail" placeholder="john@bankit.com" required />
+                  </label>
+                </div>
+
+                <div class="field-row two-col">
+                  <label>
+                    <span>Username</span>
+                    <input type="text" id="officerUsername" placeholder="johndoe" required />
+                  </label>
+                  <label>
+                    <span>Password</span>
+                    <input type="password" id="officerPassword" placeholder="Create password" required />
+                  </label>
+                </div>
+
+                <div class="form-actions">
+                  <button id="cancelUserButton" type="button" class="ghost-btn">Cancel</button>
+                  <button type="submit" class="primary-btn">Create account</button>
+                </div>
+              </form>
+
+              <div class="account-list-wrap">
+                <div class="account-list-header">
+                  <h4>Created accounts</h4>
+                  <span id="accountCount" class="badge neutral">0 accounts</span>
+                </div>
+                <div class="account-table-wrap">
+                  <table class="account-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="accountTableBody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel form-panel">
+              <div class="panel-header">
+                <h3>Create ticket</h3>
+                <span class="badge neutral">Priority desk</span>
+              </div>
+
+              <form id="ticketForm">
+                <div class="field-row two-col">
+                  <label>
+                    <span>Ticket title</span>
+                    <input type="text" id="title" placeholder="ATM downtime at Ridgewood Branch" required />
+                  </label>
+                  <label>
+                    <span>SCB branch</span>
+                    <select id="branch" required>
+                      <option value="" selected disabled>Select branch</option>
+                      <option>Asamankese</option>
+                      <option>Suhum</option>
+                      <option>Head Office</option>
+                    </select>
+                  </label>
+                </div>
+
+                <div class="field-row two-col">
+                  <label>
+                    <span>Department</span>
+                    <select id="department">
+                      <option>Operations</option>
+                      <option>Retail Banking</option>
+                      <option>Risk & Compliance</option>
+                      <option>Corporate Banking</option>
+                      <option>Cyber Security</option>
+                      <option>Facilities</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Priority</span>
+                    <select id="priority">
+                      <option>Low</option>
+                      <option selected>Medium</option>
+                      <option>High</option>
+                      <option>Critical</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label>
+                  <span>Category</span>
+                  <select id="category">
+                    <option>ATM / Teller</option>
+                    <option>Network</option>
+                    <option>Hardware</option>
+                    <option>Mobile Banking</option>
+                    <option>Access / Identity</option>
+                    <option>Cyber Security</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Requester</span>
+                  <input type="text" id="requester" placeholder="Logged-in employee" readonly required />
+                </label>
+
+                <label>
+                  <span>Issue details</span>
+                  <textarea id="details" rows="5" placeholder="Describe the issue, impact, and any escalation details..." required></textarea>
+                </label>
+
+                <div class="form-actions">
+                  <button type="reset" class="ghost-btn">Clear</button>
+                  <button type="submit" class="primary-btn">Submit ticket</button>
+                </div>
+              </form>
+            </div>
+
+          </section>
+        </section>
+
+        <section class="page-section" data-section="tickets">
+          <div class="panel list-panel">
+            <div class="panel-header">
+              <h3 id="ticketSectionTitle">Ticket history</h3>
+              <div class="list-tools">
+                <input id="searchInput" type="search" placeholder="Search tickets" />
+                <select id="filterStatus">
+                  <option value="All">All status</option>
+                  <option value="Open">Open</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Pending">Pending</option>
+                  <option value="Resolved">Resolved</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="tickets-table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Requester</th>
+                    <th>Branch</th>
+                    <th>Category</th>
+                    <th>Issue details</th>
+                    <th>Received</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="ticketTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+        <section class="page-section" data-section="chats">
+          <div class="chat-inbox-grid">
+            <div class="panel conversation-list-panel">
+              <div class="panel-header">
+                <h3>Employee conversations</h3>
+                <span id="conversationCount" class="badge neutral">0</span>
+              </div>
+              <div id="conversationList" class="conversation-list">
+                <p class="empty-state">No employee conversations yet.</p>
+              </div>
+            </div>
+
+            <div class="panel staff-chat-panel">
+              <div id="staffChatTitle" class="panel-header">
+                <div>
+                  <h3>Select a conversation</h3>
+                  <p class="chat-subtitle">Employee messages will appear here.</p>
+                </div>
+              </div>
+              <div id="staffChatMessages" class="chat-messages" aria-live="polite">
+                <p class="empty-state">Choose a conversation to view its messages.</p>
+              </div>
+              <form id="staffChatForm" class="chat-form" hidden>
+                <label class="sr-only" for="staffChatInput">Reply</label>
+                <textarea id="staffChatInput" rows="2" maxlength="1000" placeholder="Reply to the employee..." required></textarea>
+                <button type="submit" class="primary-btn">Send reply</button>
+              </form>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <button id="chatLauncher" class="chat-launcher" type="button" aria-label="Open chat with SCB IT Support" aria-expanded="false">
+      <span class="chat-launcher-icon">&#9993;</span>
+      <span>Chat with IT</span>
+    </button>
+
+    <section id="chatWidget" class="chat-widget" aria-label="Chat with SCB IT Support" hidden>
+      <div class="chat-widget-header">
+        <div>
+          <h3>SCB IT Support</h3>
+          <p>Message an IT Officer</p>
+        </div>
+        <button id="chatClose" class="chat-close" type="button" aria-label="Close chat">&times;</button>
+      </div>
+
+      <div class="chat-ticket-select-wrap">
+        <label for="chatTicketSelect">Select an active ticket</label>
+        <select id="chatTicketSelect" required>
+          <option value="" selected disabled>Choose a ticket to discuss</option>
+        </select>
+      </div>
+
+      <div id="chatMessages" class="chat-messages" aria-live="polite">
+        <p class="empty-state">Select an active ticket to start chatting.</p>
+      </div>
+
+      <form id="chatForm" class="chat-form">
+        <label class="sr-only" for="chatInput">Message</label>
+        <textarea id="chatInput" rows="2" maxlength="1000" placeholder="Write a message..." required></textarea>
+        <button type="submit" class="primary-btn">Send</button>
+      </form>
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SCB Service Desk | Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body class="auth-body" data-page="login">
+    <div class="auth-shell">
+      <section class="auth-panel">
+        <div class="auth-brand">
+          <div class="brand-mark">SCB</div>
+          <div>
+            <p class="auth-subtitle">Suhum Community Bank</p>
+            <h1>SCB Service Desk</h1>
+          </div>
+        </div>
+
+        <h2>Welcome back</h2>
+
+        <form id="loginForm" class="auth-form">
+          <label>
+            <span>Username or email</span>
+            <input id="username" type="text" placeholder="name@bankit.com" required />
+          </label>
+
+          <label>
+            <span>Password</span>
+            <input id="password" type="password" placeholder="Enter your password" required />
+          </label>
+
+          <div class="auth-options">
+            <label class="remember">
+              <input type="checkbox" />
+              <span>Remember me</span>
+            </label>
+            <a href="#">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="primary-btn auth-btn">Sign in</button>
+        </form>
+
+        <p class="auth-footer">
+          Need an account? <a href="tel:0302222222">Call admin: 0302222222</a>
+        </p>
+      </section>
+
+      <aside class="auth-visual">
+        <div class="auth-visual-card">
+          <p class="auth-subtitle" style="color: rgba(255,255,255,0.7);">Operations snapshot</p>
+          <h3>Branch support status</h3>
+          <ul>
+            <li>
+              <span>Tickets resolved</span>
+              <span id="resolvedMetric" class="metric">0</span>
+            </li>
+            <li>
+              <span>Open incidents</span>
+              <span id="openMetric" class="metric">0</span>
+            </li>
+            <li>
+              <span>Total incidents</span>
+              <span id="totalMetric" class="metric">0</span>
+            </li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

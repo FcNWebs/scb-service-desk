@@ -1,0 +1,6 @@
+node_modules/
+.env
+bankit.db
+*.db
+npm-debug.log*
+.DS_Store
