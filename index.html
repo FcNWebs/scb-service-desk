@@ -20,13 +20,20 @@
           </div>
         </div>
 
-        <nav class="nav">
+        <button id="menuToggle" class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav id="mainNav" class="nav">
           <button class="nav-item active" data-target="dashboard">Dashboard</button>
           <button class="nav-item" data-target="tickets">Tickets</button>
           <button id="chatsNav" class="nav-item staff-only" data-target="chats">
             <span>Chats</span>
             <span id="chatsUnreadBadge" class="unread-badge" hidden>0</span>
           </button>
+          <button id="manageAccountsNav" class="nav-item admin-only" data-target="manage-accounts">Manage Accounts</button>
         </nav>
 
         <div class="sidebar-card">
@@ -57,74 +64,6 @@
           <section class="stats-grid" id="statsGrid"></section>
 
           <section class="content-grid">
-            <div id="adminOfficerPanel" class="panel admin-panel" style="display: none;">
-              <div class="panel-header">
-                <h3>Manage accounts</h3>
-                <span class="badge neutral">Admin only</span>
-              </div>
-
-              <button id="addUserButton" type="button" class="primary-btn">Add user</button>
-
-              <form id="officerForm" style="display: none;">
-                <div class="field-row two-col">
-                  <label>
-                    <span>Account type</span>
-                    <select id="userRole">
-                      <option value="Employee">Employee</option>
-                      <option value="IT Officer">IT Officer</option>
-                    </select>
-                  </label>
-                </div>
-
-                <div class="field-row two-col">
-                  <label>
-                    <span>Full name</span>
-                    <input type="text" id="officerName" placeholder="John Doe" required />
-                  </label>
-                  <label>
-                    <span>Email</span>
-                    <input type="email" id="officerEmail" placeholder="john@bankit.com" required />
-                  </label>
-                </div>
-
-                <div class="field-row two-col">
-                  <label>
-                    <span>Username</span>
-                    <input type="text" id="officerUsername" placeholder="johndoe" required />
-                  </label>
-                  <label>
-                    <span>Password</span>
-                    <input type="password" id="officerPassword" placeholder="Create password" required />
-                  </label>
-                </div>
-
-                <div class="form-actions">
-                  <button id="cancelUserButton" type="button" class="ghost-btn">Cancel</button>
-                  <button type="submit" class="primary-btn">Create account</button>
-                </div>
-              </form>
-
-              <div class="account-list-wrap">
-                <div class="account-list-header">
-                  <h4>Created accounts</h4>
-                  <span id="accountCount" class="badge neutral">0 accounts</span>
-                </div>
-                <div class="account-table-wrap">
-                  <table class="account-table">
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Username</th>
-                        <th>Role</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody id="accountTableBody"></tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-
             <div class="panel form-panel">
               <div class="panel-header">
                 <h3>Create ticket</h3>
@@ -240,6 +179,76 @@
             </div>
           </div>
 
+        </section>
+
+        <section class="page-section" data-section="manage-accounts">
+          <div id="adminOfficerPanel" class="panel admin-panel">
+            <div class="panel-header">
+              <h3>Manage accounts</h3>
+              <span class="badge neutral">Admin only</span>
+            </div>
+
+            <button id="addUserButton" type="button" class="primary-btn">Add user</button>
+
+            <form id="officerForm" style="display: none;">
+              <div class="field-row two-col">
+                <label>
+                  <span>Account type</span>
+                  <select id="userRole">
+                    <option value="Employee">Employee</option>
+                    <option value="IT Officer">IT Officer</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="field-row two-col">
+                <label>
+                  <span>Full name</span>
+                  <input type="text" id="officerName" placeholder="John Doe" required />
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input type="email" id="officerEmail" placeholder="john@bankit.com" required />
+                </label>
+              </div>
+
+              <div class="field-row two-col">
+                <label>
+                  <span>Username</span>
+                  <input type="text" id="officerUsername" placeholder="johndoe" required />
+                </label>
+                <label>
+                  <span>Password</span>
+                  <input type="password" id="officerPassword" placeholder="Create password" required />
+                </label>
+              </div>
+
+              <div class="form-actions">
+                <button id="cancelUserButton" type="button" class="ghost-btn">Cancel</button>
+                <button type="submit" class="primary-btn">Create account</button>
+              </div>
+            </form>
+
+            <div class="account-list-wrap">
+              <div class="account-list-header">
+                <h4>Created accounts</h4>
+                <span id="accountCount" class="badge neutral">0 accounts</span>
+              </div>
+              <div class="account-table-wrap">
+                <table class="account-table">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Username</th>
+                      <th>Role</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="accountTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </section>
 
         <section class="page-section" data-section="chats">

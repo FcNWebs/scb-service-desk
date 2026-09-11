@@ -68,6 +68,14 @@ function saveTickets() {
 
 const navButtons = document.querySelectorAll('.nav-item');
 const pageSections = document.querySelectorAll('.page-section');
+const mainNav = document.getElementById('mainNav');
+const menuToggle = document.getElementById('menuToggle');
+
+menuToggle?.addEventListener('click', () => {
+  const isOpen = mainNav.classList.toggle('open');
+  menuToggle.setAttribute('aria-expanded', String(isOpen));
+  menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+});
 
 navButtons.forEach((button) => {
   button.addEventListener('click', () => {
@@ -77,6 +85,8 @@ navButtons.forEach((button) => {
     pageSections.forEach((section) => {
       section.classList.toggle('active', section.dataset.section === target);
     });
+    mainNav?.classList.remove('open');
+    menuToggle?.setAttribute('aria-expanded', 'false');
   });
 });
 
@@ -107,6 +117,7 @@ const chatLauncher = document.getElementById('chatLauncher');
 const chatWidget = document.getElementById('chatWidget');
 const chatClose = document.getElementById('chatClose');
 const chatsNav = document.getElementById('chatsNav');
+const manageAccountsNav = document.getElementById('manageAccountsNav');
 const chatsUnreadBadge = document.getElementById('chatsUnreadBadge');
 const conversationList = document.getElementById('conversationList');
 const conversationCount = document.getElementById('conversationCount');
@@ -512,7 +523,11 @@ if (document.body.dataset.page === 'dashboard') {
   if (chatsNav && !['Admin', 'IT Officer'].includes(currentRole)) {
     chatsNav.style.display = 'none';
   } else if (chatsNav) {
-    chatsNav.style.display = 'block';
+    chatsNav.classList.add('role-visible');
+  }
+
+  if (manageAccountsNav) {
+    manageAccountsNav.classList.toggle('role-visible', currentRole === 'Admin');
   }
 
   const ticketSectionTitle = document.getElementById('ticketSectionTitle');

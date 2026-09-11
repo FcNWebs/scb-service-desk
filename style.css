@@ -92,6 +92,30 @@ textarea {
   gap: 10px;
 }
 
+.menu-toggle {
+  display: grid;
+  width: 42px;
+  height: 38px;
+  gap: 5px;
+  place-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: white;
+}
+
+.nav:not(.open) {
+  display: none;
+}
+
 .nav-item {
   border: none;
   border-radius: 12px;
@@ -106,6 +130,15 @@ textarea {
 }
 
 .staff-only {
+  display: none;
+}
+
+.nav.open .staff-only.role-visible,
+.nav.open .admin-only.role-visible {
+  display: block;
+}
+
+.admin-only {
   display: none;
 }
 
@@ -1031,12 +1064,33 @@ th {
 }
 
 @media (max-width: 720px) {
+  body {
+    overflow-x: hidden;
+  }
+
   .auth-shell {
     grid-template-columns: 1fr;
+    min-height: auto;
+    border-radius: 20px;
+  }
+
+  .auth-body {
+    display: block;
+    padding: 12px;
+  }
+
+  .auth-panel {
+    padding: 28px 20px;
   }
 
   .auth-visual {
-    min-height: 280px;
+    min-height: 220px;
+    padding: 24px 20px;
+  }
+
+  .auth-visual-card {
+    padding: 20px;
+    border-radius: 16px;
   }
 
   .app-shell {
@@ -1046,6 +1100,21 @@ th {
   .sidebar {
     width: 100%;
     padding: 18px 16px;
+    gap: 16px;
+  }
+
+  .brand-box {
+    padding-bottom: 14px;
+  }
+
+  .brand-mark {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+
+  .brand-tag {
+    font-size: 0.62rem;
   }
 
   .nav {
@@ -1065,6 +1134,12 @@ th {
   .topbar {
     flex-direction: column;
     align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .topbar h2 {
+    font-size: 1.55rem;
   }
 
   .topbar-actions,
@@ -1076,11 +1151,63 @@ th {
   .topbar-actions button,
   .list-tools > * {
     flex: 1;
+    min-height: 44px;
   }
 
   .panel {
     padding: 16px;
     border-radius: 16px;
+  }
+
+  .stats-grid {
+    margin-bottom: 16px;
+  }
+
+  .stat-card h3 {
+    font-size: 1.65rem;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    min-height: 44px;
+  }
+
+  textarea {
+    min-height: 110px;
+  }
+
+  .admin-panel {
+    padding: 14px;
+  }
+
+  .account-table {
+    min-width: 0;
+    table-layout: fixed;
+  }
+
+  .account-table th,
+  .account-table td {
+    padding: 9px 5px;
+    font-size: 0.72rem;
+    overflow-wrap: anywhere;
+  }
+
+  .account-table th {
+    font-size: 0.62rem;
+  }
+
+  .account-role-select {
+    min-width: 0;
+    max-width: 100%;
+    padding: 6px 4px;
+    font-size: 0.7rem;
+  }
+
+  .danger-btn {
+    padding: 6px 7px;
+    font-size: 0.68rem;
   }
 
   .panel-header,
@@ -1124,10 +1251,27 @@ th {
   .chat-widget {
     right: 16px;
     bottom: 76px;
+    max-height: calc(100vh - 100px);
+  }
+
+  .chat-messages {
+    max-height: 240px;
   }
 }
 
 @media (max-width: 420px) {
+  .main-panel {
+    padding: 14px 12px 28px;
+  }
+
+  .sidebar {
+    padding: 14px 12px;
+  }
+
+  .nav-item {
+    flex-basis: 100%;
+  }
+
   .topbar-actions {
     flex-direction: column;
   }
@@ -1153,6 +1297,40 @@ th {
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
+  }
+
+  .auth-panel {
+    padding: 24px 16px;
+  }
+
+  .auth-panel h2 {
+    font-size: 2rem;
+  }
+
+  .auth-options {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+
+  .chat-launcher {
+    padding-right: 13px;
+  }
+
+  .chat-launcher > span:last-child {
+    display: none;
+  }
+
+  .chat-launcher-icon {
+    width: 32px;
+    height: 32px;
   }
 
   .app-notification {
