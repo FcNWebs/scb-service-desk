@@ -113,38 +113,23 @@ const defaultUsers = [
   }
 ];
 
-function seedDefaultUsers() {
-  db.get('SELECT COUNT(*) AS count FROM users', (err, row) => {
-    if (err) {
-      console.error('Error checking user count:', err);
-      return;
-    }
+async function seedDefaultUsers() {
+  const result = await pool.query('SELECT COUNT(*)::int AS count FROM users');
+  if (result.rows[0].count > 0) return;
 
-    if (row.count > 0) {
-      return;
-    }
-
-    const insertUser = (user) => {
-      db.run(
-        'INSERT INTO users (username, email, password, role, "displayName") VALUES (?, ?, ?, ?, ?)',
-        [user.username, user.email, user.password, user.role, user.displayName],
-        (insertErr) => {
-          if (insertErr) {
-            console.error('Error inserting default user:', insertErr);
-          }
-        }
-      );
-    };
-
-    defaultUsers.forEach(insertUser);
-  });
+  for (const user of defaultUsers) {
+    await pool.query(
+      'INSERT INTO users (username, email, password, role, "displayName") VALUES ($1, $2, $3, $4, $5)',
+      [user.username, user.email, user.password, user.role, user.displayName]
+    );
+  }
 }
 
-function initializeDatabase() {
-  db.serialize(() => {
-    db.run(`
+async function initializeDatabase() {
+  try {
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         username TEXT UNIQUE NOT NULL,
         email TEXT UNIQUE NOT NULL,
         password TEXT NOT NULL,
@@ -153,9 +138,9 @@ function initializeDatabase() {
       )
     `);
 
-    db.run(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS incidents (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         title TEXT NOT NULL,
         branch TEXT NOT NULL,
         department TEXT NOT NULL,
@@ -168,9 +153,9 @@ function initializeDatabase() {
       )
     `);
 
-    db.run(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS messages (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         conversationId INTEGER,
         senderName TEXT NOT NULL,
         senderRole TEXT NOT NULL,
@@ -179,9 +164,9 @@ function initializeDatabase() {
       )
     `);
 
-    db.run(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS conversations (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id SERIAL PRIMARY KEY,
         employeeName TEXT NOT NULL,
         ticketId INTEGER,
         subject TEXT NOT NULL,
@@ -190,7 +175,7 @@ function initializeDatabase() {
       )
     `);
 
-    db.run(`
+    await pool.query(`
       CREATE TABLE IF NOT EXISTS conversation_reads (
         conversationId INTEGER NOT NULL,
         userName TEXT NOT NULL,
@@ -199,8 +184,12 @@ function initializeDatabase() {
       )
     `);
 
-    seedDefaultUsers();
-  });
+    await seedDefaultUsers();
+    console.log('PostgreSQL database initialized.');
+  } catch (error) {
+    console.error('Database initialization failed:', error);
+    process.exit(1);
+  }
 }
 
 app.post('/api/login', (req, res) => {
@@ -679,8 +668,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'login.html'));
 });
 
-initializeDatabase();
-
-app.listen(port, () => {
-  console.log(`Bank IT portal running on http://localhost:${port}`);
+initializeDatabase().then(() => {
+  app.listen(port, () => {
+    console.log(`Bank IT portal running on http://localhost:${port}`);
+  });
 });
